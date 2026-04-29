@@ -218,14 +218,14 @@ export function QAReviewRenderer({ data, config, result, onChange }: Props) {
       <div>
         <label className="block text-xs text-[var(--text-muted)] uppercase tracking-wide mb-2">
           Notes / Correction
-          {!config.require_correction && <span className="ml-1 text-gray-700">(optional)</span>}
+          {!config.require_correction && <span className="ml-1 text-[var(--text-muted)]">(optional)</span>}
         </label>
         <textarea
           value={correction}
           onChange={(e) => handleCorrectionChange(e.target.value)}
           placeholder="Write notes or correction here..."
           rows={4}
-          className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] focus:border-indigo-500/50 rounded-xl px-4 py-3 text-sm text-gray-200 placeholder:text-gray-700 outline-none transition-colors resize-none"
+          className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] focus:border-indigo-500/50 rounded-xl px-4 py-3 text-sm text-[var(--text-secondary)] placeholder:text-[var(--text-muted)] outline-none transition-colors resize-none"
         />
       </div>
     </div>

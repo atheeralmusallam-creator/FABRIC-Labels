@@ -31,7 +31,7 @@ export function AnnotationPanel({
       <div className="mb-3">
         <label className="block text-xs text-[var(--text-muted)] mb-1.5">
           Notes / Comments
-          <span className="ml-2 text-gray-700">(Enter = new line · Ctrl+Enter = submit)</span>
+          <span className="ml-2 text-[var(--text-muted)]">(Enter = new line · Ctrl+Enter = submit)</span>
         </label>
         <textarea
           value={notes}
@@ -44,7 +44,7 @@ export function AnnotationPanel({
           }}
           placeholder="Optional notes about this annotation..."
           rows={2}
-          className="w-full bg-[var(--bg-primary)] border border-[var(--border)] focus:border-indigo-500/50 rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] outline-none transition-colors resize-none placeholder:text-gray-700"
+          className="w-full bg-[var(--bg-primary)] border border-[var(--border)] focus:border-indigo-500/50 rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] outline-none transition-colors resize-none placeholder:text-[var(--text-muted)]"
         />
       </div>
 

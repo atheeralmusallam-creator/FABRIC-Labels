@@ -104,7 +104,7 @@ export function OrganizationProjectsClient({ organization, projects, canManage }
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={2}
-                className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-gray-200 text-sm outline-none resize-none"
+                className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-[var(--text-secondary)] text-sm outline-none resize-none"
               />
 
               {error && <div className="text-sm text-red-400">{error}</div>}

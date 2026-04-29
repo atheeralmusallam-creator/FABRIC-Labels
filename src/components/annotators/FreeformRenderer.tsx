@@ -48,7 +48,7 @@ export function FreeformRenderer({ data, config, result, onChange }: Props) {
       {/* Content to review */}
       <div className="bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl p-5">
         <p className="text-xs text-gray-600 mb-1 uppercase tracking-wide">{data.title}</p>
-        <p className="text-sm text-gray-200 leading-relaxed whitespace-pre-wrap">{data.content}</p>
+        <p className="text-sm text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">{data.content}</p>
       </div>
 
       {/* Tags */}
@@ -86,10 +86,10 @@ export function FreeformRenderer({ data, config, result, onChange }: Props) {
           onChange={(e) => handleNotesChange(e.target.value)}
           placeholder="Write your review, feedback, or notes here..."
           rows={8}
-          className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] focus:border-indigo-500/50 rounded-xl px-4 py-3 text-sm text-gray-200 placeholder:text-gray-700 outline-none transition-colors resize-none"
+          className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] focus:border-indigo-500/50 rounded-xl px-4 py-3 text-sm text-[var(--text-secondary)] placeholder:text-[var(--text-muted)] outline-none transition-colors resize-none"
         />
         <div className="flex justify-between mt-1">
-          <span className={`text-xs ${!isValid ? "text-yellow-600" : "text-gray-700"}`}>
+          <span className={`text-xs ${!isValid ? "text-yellow-600" : "text-[var(--text-muted)]"}`}>
             {config.min_length
               ? `${notes.length} / ${config.min_length} min characters`
               : `${notes.length} characters`}

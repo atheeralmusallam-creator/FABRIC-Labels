@@ -360,7 +360,7 @@ export function ProjectAnnotator({
             Projects
           </Link>
 
-          <span className="text-gray-700">/</span>
+          <span className="text-[var(--text-muted)]">/</span>
 
           <Link
             href={`/projects/${project.id}`}
@@ -369,7 +369,7 @@ export function ProjectAnnotator({
             {project.name}
           </Link>
 
-          <span className="text-gray-700">·</span>
+          <span className="text-[var(--text-muted)]">·</span>
 
           <span className="text-xs text-[var(--text-secondary)] whitespace-nowrap">
             {completedAssigned}/{assignedTotal} assigned · {totalTasks} total
@@ -436,12 +436,16 @@ export function ProjectAnnotator({
                           onClick={() => setSelectedAnnotationId(ann.id)}
                           className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${
                             active
-                              ? "bg-emerald-500/20 border-emerald-500 text-emerald-200"
-                              : "bg-[var(--bg-surface)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-emerald-500/50"
+                              ? "bg-emerald-500/20 border-emerald-500"
+                              : "bg-[var(--bg-surface)] border-[var(--border)] hover:border-emerald-500/50"
                           }`}
+                          style={{ color: active ? "var(--brand)" : "var(--text-secondary)" }}
                         >
                           {name}
-                          <span className="ml-2 text-[10px] opacity-70">
+                          <span
+                            className="ml-2 text-[10px]"
+                            style={{ color: active ? "var(--text-primary)" : "var(--text-muted)", fontWeight: active ? 600 : 400 }}
+                          >
                             {ann.status}
                           </span>
                         </button>

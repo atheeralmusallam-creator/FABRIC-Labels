@@ -158,7 +158,7 @@ export function NERRenderer({ data, config, result, onChange }: Props) {
         <div
           ref={textRef}
           onMouseUp={handleMouseUp}
-          className="ner-text cursor-text select-text text-gray-200"
+          className="ner-text cursor-text select-text text-[var(--text-secondary)]"
           style={{ userSelect: "text" }}
         >
           {renderText()}

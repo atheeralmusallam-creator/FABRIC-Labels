@@ -133,7 +133,7 @@ export function AudioTranscriptionRenderer({ data, config, result, onChange }: P
         </div>
 
         {/* Keyboard shortcut hint */}
-        <p className="text-xs text-gray-700">
+        <p className="text-xs text-[var(--text-muted)]">
           Tip: Space bar plays/pauses · Adjust speed for faster review
         </p>
       </div>
@@ -170,11 +170,11 @@ export function AudioTranscriptionRenderer({ data, config, result, onChange }: P
           onChange={(e) => handleTranscriptChange(e.target.value)}
           placeholder="Type what you hear... Use [unclear] for inaudible sections."
           rows={6}
-          className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] focus:border-indigo-500/50 rounded-xl px-4 py-3 text-sm text-gray-200 placeholder:text-gray-700 outline-none transition-colors resize-none font-mono"
+          className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] focus:border-indigo-500/50 rounded-xl px-4 py-3 text-sm text-[var(--text-secondary)] placeholder:text-[var(--text-muted)] outline-none transition-colors resize-none font-mono"
         />
         <div className="flex justify-between mt-1">
-          <span className="text-xs text-gray-700">{transcript.length} characters</span>
-          <span className="text-xs text-gray-700">{transcript.trim().split(/\s+/).filter(Boolean).length} words</span>
+          <span className="text-xs text-[var(--text-muted)]">{transcript.length} characters</span>
+          <span className="text-xs text-[var(--text-muted)]">{transcript.trim().split(/\s+/).filter(Boolean).length} words</span>
         </div>
       </div>
     </div>

@@ -25,18 +25,18 @@ html.dark {
 
 /* ── Light mode ────────────────────────────────────────── */
 html.light {
-  --bg-primary:     #f5f6fa;
+  --bg-primary:     #f0f2f8;
   --bg-secondary:   #ffffff;
-  --bg-surface:     #eef0f7;
-  --bg-hover:       #e2e5f0;
-  --border:         #d1d5e0;
-  --border-light:   #c4c8d8;
-  --text-primary:   #1a1d27;
-  --text-secondary: #5a6080;
-  --text-muted:     #9498ac;
-  --brand:          #6366f1;
-  --brand-dim:      #4f46e5;
-  --scrollbar-thumb: #c4c8d8;
+  --bg-surface:     #e8eaf4;
+  --bg-hover:       #dde0ee;
+  --border:         #c8ccd8;
+  --border-light:   #b8bccf;
+  --text-primary:   #0f1117;
+  --text-secondary: #2d3148;
+  --text-muted:     #515670;
+  --brand:          #4f46e5;
+  --brand-dim:      #3730a3;
+  --scrollbar-thumb: #b8bccf;
 }
 
 * { box-sizing: border-box; }
@@ -159,5 +159,45 @@ html.light .rounded-lg {
 
 /* ── Annotation question area ──────────────────────────── */
 html.light .task-text {
+  color: var(--text-primary) !important;
+}
+
+/* ── Light mode text overrides ─────────────────────────── */
+html.light * {
+  --tw-text-opacity: 1;
+}
+
+html.light .text-gray-200,
+html.light .text-gray-300,
+html.light .text-gray-400,
+html.light .text-gray-500 {
+  color: var(--text-secondary) !important;
+}
+
+html.light .text-gray-600,
+html.light .text-gray-700 {
+  color: var(--text-muted) !important;
+}
+
+html.light label,
+html.light p,
+html.light span:not([class*="text-"]),
+html.light div:not([class*="text-"]) {
+  color: inherit;
+}
+
+/* Annotation content area */
+html.light .prose,
+html.light [dir="rtl"] {
+  color: var(--text-primary) !important;
+}
+
+/* Sidebar task list */
+html.light .task-item-text {
+  color: var(--text-primary) !important;
+}
+
+/* Stats numbers */
+html.light .stat-number {
   color: var(--text-primary) !important;
 }

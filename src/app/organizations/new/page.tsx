@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function NewOrganizationPage() {
   const router = useRouter();
@@ -41,9 +42,9 @@ export default function NewOrganizationPage() {
       <header className="border-b border-[var(--border)] bg-[var(--bg-secondary)] px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center gap-3">
           <Link href="/dashboard" className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors text-sm">← Organizations</Link>
-          <span className="text-gray-700">/</span>
+          <span className="text-[var(--text-muted)]">/</span>
           <span className="text-sm text-[var(--text-primary)]">New Organization</span>
-        </div>
+        <ThemeToggle /></div>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10">

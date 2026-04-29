@@ -51,7 +51,7 @@ export function TaskSidebar({ tasks, currentIndex, onSelect, filter, onFilterCha
           value={filter}
           onChange={(e) => onFilterChange(e.target.value)}
           placeholder="Filter ID, question, answer, annotator..."
-          className="w-full rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-3 py-2 text-xs text-[var(--text-secondary)] placeholder:text-gray-700 outline-none focus:border-indigo-500/60"
+          className="w-full rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-3 py-2 text-xs text-[var(--text-secondary)] placeholder:text-[var(--text-muted)] outline-none focus:border-indigo-500/60"
         />
         {query && (
           <div className="mt-2 text-[10px] text-[var(--text-muted)]">

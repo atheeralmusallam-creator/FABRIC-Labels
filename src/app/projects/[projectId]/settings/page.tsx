@@ -124,11 +124,11 @@ export default async function ProjectSettingsPage({
             <Link href="/dashboard" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-sm">
               Projects
             </Link>
-            <span className="text-gray-700">/</span>
+            <span className="text-[var(--text-muted)]">/</span>
             <Link href={`/projects/${project.id}`} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-sm">
               {project.name}
             </Link>
-            <span className="text-gray-700">/</span>
+            <span className="text-[var(--text-muted)]">/</span>
             <span className="text-sm text-[var(--text-primary)]">Settings</span>
           </div>
           <ThemeToggle />

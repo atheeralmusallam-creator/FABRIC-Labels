@@ -117,7 +117,7 @@ export default async function OrganizationPage({
             >
               ← Organizations
             </Link>
-            <span className="text-gray-700">/</span>
+            <span className="text-[var(--text-muted)]">/</span>
             <span className="text-sm text-[var(--text-primary)] truncate">{org.name}</span>
           </div>
 

@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useParams, useRouter } from "next/navigation";
 
 export default function ImportTasksPage() {
@@ -58,9 +59,9 @@ export default function ImportTasksPage() {
           <Link href={`/projects/${projectId}/settings`} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors text-sm">
             ← Project Settings
           </Link>
-          <span className="text-gray-700">/</span>
+          <span className="text-[var(--text-muted)]">/</span>
           <span className="text-sm text-[var(--text-primary)]">Import Tasks</span>
-        </div>
+        <ThemeToggle /></div>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10">
@@ -91,7 +92,7 @@ export default function ImportTasksPage() {
               className="mt-1 accent-emerald-500"
             />
             <span>
-              <span className="block text-sm text-gray-200">Replace existing tasks</span>
+              <span className="block text-sm text-[var(--text-secondary)]">Replace existing tasks</span>
               <span className="block text-xs text-gray-600 mt-1">
                 This deletes current tasks and annotations in this project before importing the new file.
               </span>

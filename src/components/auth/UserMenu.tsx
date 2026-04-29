@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { clearSession } from "@/lib/auth";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 async function logoutAction() {
   "use server";
@@ -10,12 +11,13 @@ async function logoutAction() {
 export function UserMenu({ user }: { user: { name: string | null; email: string; role: string } }) {
   return (
     <div className="flex items-center gap-3 text-sm">
+      <ThemeToggle />
       <div className="text-right hidden sm:block">
-        <div className="text-gray-200 font-medium">{user.name || user.email}</div>
-        <div className="text-xs text-[var(--text-muted)]">{user.role.toLowerCase()}</div>
+        <div className="font-medium" style={{ color: "var(--text-primary)" }}>{user.name || user.email}</div>
+        <div className="text-xs" style={{ color: "var(--text-muted)" }}>{user.role.toLowerCase()}</div>
       </div>
       <form action={logoutAction}>
-        <button className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Logout</button>
+        <button className="transition-colors" style={{ color: "var(--text-secondary)" }}>Logout</button>
       </form>
     </div>
   );
