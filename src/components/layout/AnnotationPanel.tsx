@@ -106,32 +106,6 @@ export function AnnotationPanel({
         )}
       </div>
 
-      {/* ── Notes ── */}
-      <div className="mb-3">
-        <label className="block text-xs mb-1.5" style={{ color: "var(--text-muted)" }}>
-          Notes / Comments
-          <span className="ml-2" style={{ color: "var(--text-muted)" }}>(Enter = new line · Ctrl+Enter = submit)</span>
-        </label>
-        <textarea
-          value={notes}
-          onChange={(e) => onNotesChange(e.target.value)}
-          onKeyDown={(e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-              e.preventDefault();
-              if (canSubmit) onSubmit();
-            }
-          }}
-          placeholder="Optional notes about this annotation..."
-          rows={2}
-          className="w-full rounded-lg px-3 py-2 text-sm outline-none transition-colors resize-none"
-          style={{
-            background: "var(--bg-primary)",
-            border: "1px solid var(--border)",
-            color: "var(--text-primary)",
-          }}
-        />
-      </div>
-
       {/* ── Actions ── */}
       <div className="flex items-center justify-between">
         <button
