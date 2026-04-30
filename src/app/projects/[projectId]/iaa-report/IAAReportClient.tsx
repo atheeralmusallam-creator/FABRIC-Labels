@@ -70,7 +70,7 @@ function BarChart({ data }: { data: Record<string, number> }) {
   );
 }
 
-function AnnotatorCard({ annotator }: { annotator: AnnotatorStat }) {
+function AnnotatorCard({ annotator, showCounts }: { annotator: AnnotatorStat; showCounts: boolean }) {
   const total = annotator.count;
   return (
     <div className="rounded-xl border p-4" style={{ background: "var(--bg-surface)", borderColor: "var(--border)" }}>
@@ -81,7 +81,9 @@ function AnnotatorCard({ annotator }: { annotator: AnnotatorStat }) {
         </div>
         <div>
           <div className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{annotator.name}</div>
-          <div className="text-xs" style={{ color: "var(--text-muted)" }}>{total} annotations</div>
+          {showCounts && (
+            <div className="text-xs" style={{ color: "var(--text-muted)" }}>{total} annotations</div>
+          )}
         </div>
       </div>
       <div className="space-y-1">
@@ -90,7 +92,10 @@ function AnnotatorCard({ annotator }: { annotator: AnnotatorStat }) {
             <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: getColor(r) }} />
             <span className="text-xs flex-1" style={{ color: "var(--text-secondary)" }}>{r}</span>
             <span className="text-xs font-medium" style={{ color: "var(--text-primary)" }}>
-              {n} <span style={{ color: "var(--text-muted)" }}>({Math.round((n / total) * 100)}%)</span>
+              {showCounts
+                ? <>{n} <span style={{ color: "var(--text-muted)" }}>({Math.round((n / total) * 100)}%)</span></>
+                : <span style={{ color: "var(--text-muted)" }}>{Math.round((n / total) * 100)}%</span>
+              }
             </span>
           </div>
         ))}
@@ -346,7 +351,7 @@ export function IAAReportClient({ data }: { data: IAAData }) {
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.annotators.map((ann) => (
-                <AnnotatorCard key={ann.name} annotator={ann} />
+                <AnnotatorCard key={ann.name} annotator={ann} showCounts={isManager} />
               ))}
             </div>
           </div>
