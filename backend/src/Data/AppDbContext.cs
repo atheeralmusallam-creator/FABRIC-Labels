@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Fabric.Api.Models;
 
 namespace Fabric.Api.Data;
@@ -7,14 +8,12 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    // PostgreSQL: enums stored as strings via HasConversion (defined in OnModelCreating)
-
     // ─── Internal Platform ───────────────────────────────────────────────────
     public DbSet<User> Users => Set<User>();
     public DbSet<Organization> Organizations => Set<Organization>();
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<ProjectAssignment> ProjectAssignments => Set<ProjectAssignment>();
-    public DbSet<Models.Task> Tasks => Set<Models.Task>();
+    public DbSet<Fabric.Api.Models.Task> Tasks => Set<Fabric.Api.Models.Task>();
     public DbSet<TaskAssignment> TaskAssignments => Set<TaskAssignment>();
     public DbSet<Annotation> Annotations => Set<Annotation>();
 
@@ -36,23 +35,35 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // User
+        // ─── User ────────────────────────────────────────────────────────────
         modelBuilder.Entity<User>(e =>
         {
             e.ToTable("users");
             e.HasKey(x => x.Id);
             e.HasIndex(x => x.Email).IsUnique();
+
+            // Store Roles list as comma-separated string
+            // ValueComparer needed to avoid EF tracking warning
+            var rolesComparer = new ValueComparer<List<Role>>(
+                (a, b) => a != null && b != null && a.SequenceEqual(b),
+                c => c.Aggregate(0, (acc, v) => HashCode.Combine(acc, v.GetHashCode())),
+                c => c.ToList()
+            );
+
             e.Property(x => x.Roles)
              .HasConversion(
                 v => string.Join(',', v.Select(r => r.ToString())),
                 v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                      .Select(Enum.Parse<Role>).ToList());
+                      .Select(Enum.Parse<Role>)
+                      .ToList()
+             )
+             .Metadata.SetValueComparer(rolesComparer);
         });
 
-        // Organization
+        // ─── Organization ────────────────────────────────────────────────────
         modelBuilder.Entity<Organization>(e => e.ToTable("organizations"));
 
-        // Project
+        // ─── Project ─────────────────────────────────────────────────────────
         modelBuilder.Entity<Project>(e =>
         {
             e.ToTable("projects");
@@ -62,15 +73,15 @@ public class AppDbContext : DbContext
              .OnDelete(DeleteBehavior.SetNull);
         });
 
-        // ProjectAssignment
+        // ─── ProjectAssignment ───────────────────────────────────────────────
         modelBuilder.Entity<ProjectAssignment>(e =>
         {
             e.ToTable("project_assignments");
             e.HasIndex(x => new { x.ProjectId, x.UserId }).IsUnique();
         });
 
-        // Task
-        modelBuilder.Entity<Models.Task>(e =>
+        // ─── Task ────────────────────────────────────────────────────────────
+        modelBuilder.Entity<Fabric.Api.Models.Task>(e =>
         {
             e.ToTable("tasks");
             e.HasOne(x => x.Project)
@@ -79,21 +90,21 @@ public class AppDbContext : DbContext
              .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // TaskAssignment
+        // ─── TaskAssignment ──────────────────────────────────────────────────
         modelBuilder.Entity<TaskAssignment>(e =>
         {
             e.ToTable("task_assignments");
             e.HasIndex(x => new { x.TaskId, x.UserId }).IsUnique();
         });
 
-        // Annotation
+        // ─── Annotation ──────────────────────────────────────────────────────
         modelBuilder.Entity<Annotation>(e =>
         {
             e.ToTable("annotations");
             e.HasIndex(x => new { x.TaskId, x.UserId }).IsUnique();
         });
 
-        // Customer
+        // ─── Customer ────────────────────────────────────────────────────────
         modelBuilder.Entity<Customer>(e =>
         {
             e.ToTable("customers");
@@ -101,7 +112,7 @@ public class AppDbContext : DbContext
             e.HasIndex(x => x.ApiKey).IsUnique();
         });
 
-        // CustomerProject
+        // ─── CustomerProject ─────────────────────────────────────────────────
         modelBuilder.Entity<CustomerProject>(e =>
         {
             e.ToTable("customer_projects");
@@ -111,42 +122,27 @@ public class AppDbContext : DbContext
              .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // UploadedFile
         modelBuilder.Entity<UploadedFile>(e => e.ToTable("uploaded_files"));
-
-        // Guideline
         modelBuilder.Entity<Guideline>(e => e.ToTable("guidelines"));
-
-        // AIModel
         modelBuilder.Entity<AIModel>(e => e.ToTable("ai_models"));
-
-        // AIEvaluation
         modelBuilder.Entity<AIEvaluation>(e => e.ToTable("ai_evaluations"));
-
-        // HumanReview
         modelBuilder.Entity<HumanReview>(e => e.ToTable("human_reviews"));
 
-        // ReviewResponse
         modelBuilder.Entity<ReviewResponse>(e =>
         {
             e.ToTable("review_responses");
             e.HasIndex(x => new { x.ReviewId, x.ReviewerId }).IsUnique();
         });
 
-        // FinalResult
         modelBuilder.Entity<FinalResult>(e => e.ToTable("final_results"));
-
-        // ExportLog
         modelBuilder.Entity<ExportLog>(e => e.ToTable("export_logs"));
 
-        // BlogPost
         modelBuilder.Entity<BlogPost>(e =>
         {
             e.ToTable("blog_posts");
             e.HasIndex(x => x.Slug).IsUnique();
         });
 
-        // SystemSetting
         modelBuilder.Entity<SystemSetting>(e =>
         {
             e.ToTable("system_settings");

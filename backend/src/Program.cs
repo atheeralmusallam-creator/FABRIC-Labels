@@ -8,9 +8,23 @@ using Fabric.Api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // ─── Database ────────────────────────────────────────────────────────────────
-// Railway injects DATABASE_URL automatically when PostgreSQL plugin is added
-var connStr = Environment.GetEnvironmentVariable("DATABASE_URL")
-    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+// Railway provides DATABASE_URL as a postgres:// URI — convert it for Npgsql
+var rawUrl = Environment.GetEnvironmentVariable("DATABASE_URL")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? "";
+
+// Convert postgres://user:pass@host:port/db  →  Npgsql connection string
+string connStr;
+if (rawUrl.StartsWith("postgres://") || rawUrl.StartsWith("postgresql://"))
+{
+    var uri = new Uri(rawUrl);
+    var userInfo = uri.UserInfo.Split(':');
+    connStr = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
+}
+else
+{
+    connStr = rawUrl;
+}
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connStr));
