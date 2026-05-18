@@ -1,0 +1,88 @@
+/* globals.css — applies HUMAIN tokens to base elements */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--humain-text-primary);
+  background: var(--humain-surface-2);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--humain-brand); text-decoration: none; }
+a:hover { color: var(--humain-brand-strong); }
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+/* ─── Utility classes (mirrors Tailwind aliases from DS.md) ─────────────── */
+
+.bg-brand         { background-color: var(--humain-brand); }
+.bg-brand-soft    { background-color: var(--humain-brand-soft); }
+.bg-surface-1     { background-color: var(--humain-surface-1); }
+.bg-surface-2     { background-color: var(--humain-surface-2); }
+.bg-surface-3     { background-color: var(--humain-surface-3); }
+
+.text-brand       { color: var(--humain-brand); }
+.text-primary     { color: var(--humain-text-primary); }
+.text-secondary   { color: var(--humain-text-secondary); }
+.text-muted       { color: var(--humain-text-muted); }
+.text-inverse     { color: var(--humain-text-inverse); }
+
+.border-border    { border-color: var(--humain-border); }
+.shadow-soft      { box-shadow: var(--humain-shadow-soft); }
+.shadow-brand     { box-shadow: var(--humain-shadow-brand); }
+
+/* ─── Glass surface utility ─────────────────────────────────────────────── */
+.glass {
+  background: var(--humain-glass-bg);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--humain-glass-border);
+}
+
+/* ─── Brand gradient button ─────────────────────────────────────────────── */
+.btn-brand {
+  background: linear-gradient(135deg, var(--humain-brand), var(--humain-brand-soft));
+  box-shadow: var(--humain-shadow-brand);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: opacity 200ms;
+}
+.btn-brand:hover { opacity: 0.9; }
+
+/* ─── Card ──────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--humain-surface-1);
+  border: 1px solid var(--humain-border);
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
+
+/* ─── Status pills ──────────────────────────────────────────────────────── */
+.pill-warning { background: rgba(255,149,0,0.12); color: var(--humain-status-warning); border-radius: 9999px; padding: 2px 10px; font-size: 0.75rem; }
+.pill-success { background: rgba(0,150,136,0.12); color: var(--humain-brand); border-radius: 9999px; padding: 2px 10px; font-size: 0.75rem; }
+.pill-error   { background: rgba(255,59,48,0.12); color: var(--humain-status-error); border-radius: 9999px; padding: 2px 10px; font-size: 0.75rem; }
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--humain-border-strong); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--humain-text-tertiary); }
