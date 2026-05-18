@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["dotnet-sdk_8"]
+
+[phases.install]
+cmds = ["dotnet restore Fabric.API.csproj"]
+
+[phases.build]
+cmds = ["dotnet publish Fabric.API.csproj --no-restore -c Release -o out"]
+
+[start]
+cmd = "./out/Fabric.API"
