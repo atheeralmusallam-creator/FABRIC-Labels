@@ -7,6 +7,8 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+    // PostgreSQL: enums stored as strings via HasConversion (defined in OnModelCreating)
+
     // ─── Internal Platform ───────────────────────────────────────────────────
     public DbSet<User> Users => Set<User>();
     public DbSet<Organization> Organizations => Set<Organization>();
