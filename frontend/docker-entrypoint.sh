@@ -1,10 +1,12 @@
 #!/bin/sh
 
-# Replace BACKEND_URL placeholder in nginx config at runtime
-BACKEND_URL="${BACKEND_URL:-https://fabric-labels-production.up.railway.app}"
+# Strip https:// and use http:// for nginx proxy_pass (nginx handles SSL upstream separately)
+RAW="${BACKEND_URL:-https://fabric-labels-production.up.railway.app}"
+# Convert https:// to http:// for nginx compatibility
+BACKEND_HTTP=$(echo "$RAW" | sed 's|https://|http://|g')
 
-sed -i "s|BACKEND_URL_PLACEHOLDER|${BACKEND_URL}|g" /etc/nginx/conf.d/default.conf
+sed -i "s|BACKEND_URL_PLACEHOLDER|${BACKEND_HTTP}|g" /etc/nginx/conf.d/default.conf
 
-echo "Backend URL: ${BACKEND_URL}"
+echo "Proxying /api to: ${BACKEND_HTTP}/api"
 
 nginx -g 'daemon off;'
