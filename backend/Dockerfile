@@ -11,7 +11,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
-ENV ASPNETCORE_URLS=http://+:${PORT:-8080}
 EXPOSE 8080
+ENV ASPNETCORE_ENVIRONMENT=Production
 
-ENTRYPOINT ["dotnet", "Fabric.API.dll"]
+CMD ASPNETCORE_URLS="http://+:${PORT:-8080}" dotnet Fabric.API.dll
