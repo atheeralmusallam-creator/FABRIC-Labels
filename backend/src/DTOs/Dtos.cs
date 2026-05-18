@@ -1,5 +1,8 @@
 using Fabric.Api.Models;
 
+// Alias to avoid ambiguity with System.Threading.Tasks.TaskStatus
+using FabricTaskStatus = Fabric.Api.Models.TaskStatus;
+
 namespace Fabric.Api.DTOs;
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
@@ -58,7 +61,7 @@ public record CreateTaskRequest
     public int Order { get; set; } = 0;
 }
 
-public record UpdateTaskStatusRequest(TaskStatus Status);
+public record UpdateTaskStatusRequest(FabricTaskStatus Status);
 
 public record AnnotateRequest(string Result, string? Notes, AnnotationStatus Status = AnnotationStatus.SUBMITTED);
 
