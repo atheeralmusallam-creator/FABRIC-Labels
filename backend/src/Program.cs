@@ -8,18 +8,22 @@ using Fabric.Api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // ─── Database ────────────────────────────────────────────────────────────────
-// Railway provides DATABASE_URL as a postgres:// URI — convert it for Npgsql
+// Railway provides DATABASE_URL as postgres:// URI — convert to Npgsql format
 var rawUrl = Environment.GetEnvironmentVariable("DATABASE_URL")
     ?? builder.Configuration.GetConnectionString("DefaultConnection")
     ?? "";
 
-// Convert postgres://user:pass@host:port/db  →  Npgsql connection string
 string connStr;
 if (rawUrl.StartsWith("postgres://") || rawUrl.StartsWith("postgresql://"))
 {
     var uri = new Uri(rawUrl);
     var userInfo = uri.UserInfo.Split(':');
-    connStr = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
+    var db = uri.AbsolutePath.TrimStart('/');
+    var host = uri.Host;
+    var port = uri.Port;
+    var user = userInfo[0];
+    var pass = Uri.UnescapeDataString(userInfo[1]);
+    connStr = $"Host={host};Port={port};Database={db};Username={user};Password={pass};SSL Mode=Require;Trust Server Certificate=true";
 }
 else
 {
@@ -94,13 +98,20 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// ─── Auto-migrate + Seed ──────────────────────────────────────────────────────
+// ─── Create tables + Seed ─────────────────────────────────────────────────────
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    // EnsureCreated creates tables directly without needing migration files
-    db.Database.EnsureCreated();
-    await DbSeeder.SeedAsync(db);
+
+    // EnsureCreated: creates all tables from models if they don't exist
+    // Safe to call multiple times — skips if tables already exist
+    var created = await db.Database.EnsureCreatedAsync();
+
+    if (created)
+    {
+        // Only seed on fresh database
+        await DbSeeder.SeedAsync(db);
+    }
 }
 
 if (app.Environment.IsDevelopment())
@@ -108,6 +119,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Always expose swagger in production too (optional, remove if unwanted)
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FABRIC API v1"));
 
 app.UseCors("AllowFrontend");
 app.UseAuthentication();

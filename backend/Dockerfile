@@ -14,7 +14,6 @@ WORKDIR /app
 
 COPY --from=build /publish .
 
-# Create upload directory
 RUN mkdir -p /app/public/uploads
 
 EXPOSE 8080
