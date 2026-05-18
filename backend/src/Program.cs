@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -9,9 +8,11 @@ using Fabric.Api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // ─── Database ────────────────────────────────────────────────────────────────
+// Railway injects DATABASE_URL automatically when PostgreSQL plugin is added
+var connStr = Environment.GetEnvironmentVariable("DATABASE_URL")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    // Railway injects DATABASE_URL automatically when PostgreSQL plugin is added
-    var connStr = Environment.GetEnvironmentVariable("DATABASE_URL") ?? builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseNpgsql(connStr));
 
 // ─── JWT Auth ────────────────────────────────────────────────────────────────
