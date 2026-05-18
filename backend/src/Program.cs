@@ -98,7 +98,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    // EnsureCreated creates tables directly without needing migration files
+    db.Database.EnsureCreated();
     await DbSeeder.SeedAsync(db);
 }
 
